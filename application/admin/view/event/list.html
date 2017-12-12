@@ -1,15 +1,61 @@
 {layout name="layout" /}
 	
 	<div>
-		
+
+
+		<div align="right">
+			<input type="button" name="" value="添加" onclick="add()" style="width: 80px;">
+		</div>
 	</div>
 
-	<div id='add'>
-		<form action="{:url('admin/event/add')}">
+	<div id='add' style="display: none">
+		<div align="right">
+			<input type="button" name="" value="取消" onclick="cancel()" style="width: 80px;">
+		</div>
+		<form action="{:url('admin/event/add')}" method="post">
+			<table align="center">
+				<tr>
+					<td>描述</td>
+					<td><input type="text" name="envet_descript"></td>
+				</tr>
+				<tr>
+					<td>周期天数</td>
+					<td>	<input type="text" name="cycle_days"></td>
+				</tr>
+				<tr>
+					<td>次数</td>
+					<td><input type="text" name="cycle_count"></td>
+				</tr>
+				<tr>
+					<td>开始时间</td>
+					<td><input type="text" name="wealth"></td>
+				</tr>
+				<tr>
+					<td>结束时间</td>
+					<td><input type="text" name="start_time"></td>
+				</tr>
+				<tr>
+					<td>行为</td>
+					<td><input type="text" name="end_time"></td>
+				</tr>
+			</table>
 			<span>财富</span>  	<input type="text" name="wealth" style="width:50px;">	     <br />
 			<span>威望</span> 	<input type="text" name="prestige" style="width:50px;">		 <br />
 			<span>积分</span>	<input type="text" name="point" style="width:50px;">		 <br />
 			<input type="submit" name="" value="提交">			
-			<input type="button" name="" value="取消">			
 		</form>
 	</div>
+
+	{literal}
+	<script type="text/javascript">
+		function add()
+		{
+			$('#add').slideDown(500);
+		}
+
+		function cancel()
+		{
+			$('#add').slideUp(500);
+		}
+	</script>
+	{/literal}

@@ -1,0 +1,21 @@
+{layout name="layout" /}
+	<link rel="stylesheet" href="/css/simple.css" />
+	<script type="text/javascript" src="/js/adminIndex.js"></script>
+
+<div style="float:right;">
+	<a href="{:url('index/Index/index')}">登录</a>
+	<a href="{:url('index/Index/register')}">注册</a>
+</div>
+<br />
+<div>
+	<form action= "{:url('index/Index/login')}" method="post">
+	账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：<input type="text" name="userName" value="">		
+	<br />
+	密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="text" name="userPassword" value="">	
+	<br />
+	验 证 码：<input type="test" name="validateCode" value="">		
+	<div>{:captcha_img()}</div>
+	<br />
+	<input id='login'  type="submit" value="登录" class="widthly" >
+	</form>
+</div>

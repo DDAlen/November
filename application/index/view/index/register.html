@@ -2,13 +2,13 @@
 
 
 <div  style="float:right;">
-	<a href="{:url('admin/Index/index')}">登录</a>
-	<a href="{:url('admin/Index/register')}">注册</a>
+	<a href="{:url('index/Index/index')}">登录</a>
+	<a href="{:url('index/Index/register')}">注册</a>
 </div>
 <br />
 <div>
-	<form action= "{:url('admin/AdminUser/addUser')}" method="post" onsubmit="return validate()">
-	账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：<input type="text" name="userName" onblur="validateUserName('{:url('admin/AdminUser/validateUserName')}')">  
+	<form action= "{:url('index/User/addUser')}" method="post" onsubmit="return validate()">
+	账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：<input type="text" name="userName" onblur="validateUserName('{:url('index/User/validateUserName')}')">  
 	<span></span>	
 	<br />
 	密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="text" name="userPassword" value="">	

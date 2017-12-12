@@ -1,7 +1,7 @@
 <?php
-namespace app\admin\Controller;
+namespace app\index\Controller;
 use think\Controller;
-use app\admin\Model\AdminUser as AdminUserModel;
+use app\index\Model\User as UserModel;
 /**
 * 
 */
@@ -12,12 +12,12 @@ class Main extends Controller
 
 		if(!session('?userName') || ! session('?id'))
 		{
-			$this->error('请先登录', 'admin/Index/index');
+			$this->error('请先登录', 'index/Index/index');
 			return;
 		}
 
 		return $this->fetch('main', [
-			'user' => AdminUserModel::get(session('id'))
+			'user' => UserModel::get(session('id'))
 		]);
 	}
 

@@ -1,6 +1,6 @@
 <?php
 namespace app\admin\Controller;
-use app\admin\Model
+use app\admin\Model\Event as EventModel;
 /**
 * 
 */
@@ -9,13 +9,14 @@ class Event extends Base
 {
 	public function list()
 	{
-
-		return $this->fetch();
+		$eventModel = new EventModel();
+		return $this->fetch('', ['data' => $eventModel->where('delete', 0)->select()]);
 	}
 
 	public function add()
 	{
-		$this->success('添加成功', 'Event/list');
+		$data = input('post.');
+		EventModel::save();
 		if (EventModel::update(['id' => input('post.eventId'), 'delete' => 0]) > 0)
 		{
 			$this->success('添加成功', 'Event/list');

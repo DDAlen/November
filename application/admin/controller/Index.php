@@ -3,7 +3,7 @@ namespace app\admin\Controller;
 use think\Controller;
 use think\Request;
 use think\Db;
-use app\admin\model\User as UserModel;
+use app\admin\model\AdminUser as AdminUserModel;
 /**
 * 	点击验证码刷新
 */
@@ -24,7 +24,7 @@ class Index extends Controller
             $this->error('验证码不正确', 'admin/Index/index');
         }*/
 
-		$user = new UserModel();
+		$user = new AdminUserModel();
 		$res = $user->where('user_name', input('post.userName'))->where('deleted', 0)->find();
 		if (null === $res)
 		{

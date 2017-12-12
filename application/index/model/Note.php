@@ -1,5 +1,5 @@
-?php
-namespace app\amin\Model;
+<?php
+namespace app\index\Model;
 use think\Model;
 
 /**
