@@ -16,8 +16,8 @@ class Event extends Base
 	public function add()
 	{
 		$data = input('post.');
-		EventModel::save();
-		if (EventModel::update(['id' => input('post.eventId'), 'delete' => 0]) > 0)
+		$data['envet_name'] = 'index/index/login';
+		if (EventModel::create($data)->id > 0)
 		{
 			$this->success('添加成功', 'Event/list');
 		}	
@@ -26,8 +26,7 @@ class Event extends Base
 
 	public function deleteEvent()
 	{
-		$this->success('删除成功', 'Event/list');
-		if (EventModel::update(['id' => input('post.eventId'), 'delete' => 0]) > 0)
+		if (EventModel::update(['id' => (int)input('id'), 'delete' => 1]))
 		{
 			$this->success('删除成功', 'Event/list');
 		}	

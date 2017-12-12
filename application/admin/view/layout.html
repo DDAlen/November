@@ -4,14 +4,25 @@
 	<title>后台管理</title>
 </head>
 <script type="text/javascript" src="/js/jquery-3.2.1.js"></script>
-
+<link rel="stylesheet" href="/css/admin/main/main.css" />
 <body style="text-align:center">
 
 	<div style="width:100%;height:50px;border:1px solid #F00;margin:0 auto;">
 		我是顶
 	</div>
 
- 	{__CONTENT__}
+<ul id="menu">
+	 <li><a href="#">笔记管理</a></li>
+	 <li><a href="{:url('admin/event/list')}">事件列表</a></li>
+</ul>
+
+<div>
+	<span>用户名：{:session('userName')}</span>
+</div>
+
+	<div>
+		{__CONTENT__}
+	</div>
 
 	<div style="position: absolute;bottom: 0;padding: 25px 0;background-color: #AAA;width: 100%;">
 		我是脚

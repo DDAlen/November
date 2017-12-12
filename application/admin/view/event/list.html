@@ -1,8 +1,39 @@
 {layout name="layout" /}
-	
+	{literal}
+	<style type="text/css">
+		#table tr td{border: 1px solid #151515;cellspacing:0;cellpadding:0;}
+		table {
+			cellspacing:0,
+		 	cellpadding:0;}
+	</style>
+	{/literal}
 	<div>
-
-
+		<table id='table' align="center" style="border: 1px solid #151515;cellspacing:0;cellpadding:0; ">
+			<tr>
+				<td>描述</td>
+				<td>周期天数</td>
+				<td >次数</td>
+				<td>开始时间</td>
+				<td>结束时间</td>
+				<td>财富</td>
+				<td>威望</td>
+				<td>积分</td>
+				<td>操作</td>
+			</tr>
+		{foreach $data as $item}
+			<tr>
+				<td>{$item.envet_descript}</td>
+				<td>{$item.cycle_days}</td>
+				<td>{$item.cycle_count}</td>
+				<td>{$item.start_time}</td>
+				<td>{$item.end_time}</td>
+				<td>{$item.wealth}</td>
+				<td>{$item.prestige}</td>
+				<td>{$item.point}</td>
+				<td><a href="{:url('/admin/event/deleteEvent/id/' . $item:id)}">删除</a></td>
+			</tr>
+		{/foreach}
+		</table>
 		<div align="right">
 			<input type="button" name="" value="添加" onclick="add()" style="width: 80px;">
 		</div>
@@ -28,15 +59,15 @@
 				</tr>
 				<tr>
 					<td>开始时间</td>
-					<td><input type="text" name="wealth"></td>
-				</tr>
-				<tr>
-					<td>结束时间</td>
 					<td><input type="text" name="start_time"></td>
 				</tr>
 				<tr>
-					<td>行为</td>
+					<td>结束时间</td>
 					<td><input type="text" name="end_time"></td>
+				</tr>
+				<tr>
+					<td>行为</td>
+					<td><input type="text" name="envet_name"></td>
 				</tr>
 			</table>
 			<span>财富</span>  	<input type="text" name="wealth" style="width:50px;">	     <br />

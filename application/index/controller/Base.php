@@ -14,6 +14,8 @@ class Base extends Controller
         {
         	$this->error('请先登录', 'Index/index');
         }
+
+       EventManage::exitEventConditions(Request::instance()->controller() . '/' . Request::instance()->action());
     }
 }
 
