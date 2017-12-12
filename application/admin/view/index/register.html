@@ -1,0 +1,37 @@
+{layout name="layout" /}
+
+
+<div  style="float:right;">
+	<a href="{:url('admin/Index/index')}">登录</a>
+	<a href="{:url('admin/Index/register')}">注册</a>
+</div>
+<br />
+<div>
+	<form action= "{:url('admin/User/addUser')}" method="post" onsubmit="return validate()">
+	账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：<input type="text" name="userName" value="">		
+	<br />
+	密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="text" name="userPassword" value="">	
+	<br />
+	重复密码：<input type="text" name="userPasswordTwo" value="">	
+	<br />
+	验 证 码：<input type="test" name="validateCode" value="">		
+	<div>{:captcha_img()}</div>
+	<br />
+	<input id='register'  type="submit" value="注册" class="widthly" >
+	</form>
+</div>
+
+{literal}
+<script>
+	function validate()
+	{
+		if($("input[name='userPassword']").val() != $("input[name='userPassword']").val)
+		{
+			return false;
+		}
+		return true;
+	}
+</script>
+{/literal}
+
+

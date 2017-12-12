@@ -1,2 +1,6 @@
-config.php
+.idea
+composer.lock
+*.log
+thinkphp
 
+config.php
