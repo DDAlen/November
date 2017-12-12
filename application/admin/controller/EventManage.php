@@ -57,5 +57,4 @@ class EventManage
 		return false;
 	}	
 }
-//现在的时间 - 事件起始的时间 = n天； m天 一轮，n / m  得到第几轮（ceil()判断是不是最后一天）
 ?>
