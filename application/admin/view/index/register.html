@@ -8,7 +8,8 @@
 <br />
 <div>
 	<form action= "{:url('admin/User/addUser')}" method="post" onsubmit="return validate()">
-	账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：<input type="text" name="userName" value="">		
+	账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：<input type="text" name="userName" onblur="validateUserName('{:url('admin/User/validateUserName')}')">  
+	<span></span>	
 	<br />
 	密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="text" name="userPassword" value="">	
 	<br />
@@ -23,13 +24,38 @@
 
 {literal}
 <script>
+	var validateName = false;
 	function validate()
 	{
-		if($("input[name='userPassword']").val() != $("input[name='userPassword']").val)
+		if(trim($("input[name='userPassword']").val()) != trim($("input[name='userPasswordTwo']").val()))
 		{
+			console.log($("input[name='userPassword']").val());
+			console.log('俩次密码不一样');
+			console.log($("input[name='userPasswordTwo']").val());
 			return false;
 		}
-		return true;
+		return validateName;
+	}
+
+	function validateUserName(url)	
+	{
+		$.ajax({
+			url : url,
+			type : 'post',
+			dataType : 'json',
+			timeout : 3000,
+			data : {
+				userName : $("input[name='userName']").val()
+			},
+			success : function(result){
+				console.log(result);
+				validateName = result['result'];
+				$('span').html(result['message']);
+			},
+			error : function (result){
+				$('span').html('该用户名已经存在');
+			}
+		});
 	}
 </script>
 {/literal}

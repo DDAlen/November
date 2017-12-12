@@ -25,9 +25,23 @@ class User extends controller
     	$user = UserModel::create(['user_name' => input('post.userName'), 'user_password' => md5(input('post.userPassword'))]);
     	session('id', $user->id);
     	session('userName', $user->user_name);
-    	$this->redirect('Index/main');
+    	$this->redirect('Main/main');
 	}
+
+	public function validateUserName()
+	{
+		if (UserModel::get(['user_name' => input('post.userName')]))
+    	{
+    		echo json_encode(['result' => false, 'message' => '恭喜，该用户名'.input('post.userName').'不可用']);
+    	}
+
+    	echo json_encode(['result' => true, 'message' => '恭喜，该用户名'.input('post.userName').'可用']);
+	}
+
 }
+
+
+
 
 
 ?>
