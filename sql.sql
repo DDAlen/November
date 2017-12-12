@@ -58,6 +58,18 @@ CREATE TABLE `think_user` (
   UNIQUE KEY `user_name` (`user_name`) USING BTREE
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `think_admin_user`;
+CREATE TABLE `think_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(50) NOT NULL,
+  `user_password` varchar(50) NOT NULL,
+  `user_wealth` int(11) DEFAULT '0',
+  `user_prestige` int(11) DEFAULT '0' COMMENT '威望',
+  `user_point` int(11) NOT NULL DEFAULT '0' COMMENT '用户积分',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_name` (`user_name`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS=0;
 
