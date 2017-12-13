@@ -71,6 +71,30 @@ class Book extends Base
 
 		$this->success('修改成功', '/index/main/main');
 	}
+
+	public function deleteBook()
+	{
+		$book = BookModel::get(Request::instance()->param('book_id'));
+		if (empty($book))
+		{
+			$this->error('乱改数据了吧', '/index/main/main');
+		}
+
+		if ($book->user_id != session('id') || $book->book_text == Request::instance()->param('book_text'))
+		{
+			$this->error('不是你的就不要动', '/index/main/main');
+		}
+
+		$book->delete = 1;
+		if ($book->save())
+		{
+			$this->success('删除成功', '/index/main/main');
+		}
+		else
+		{
+			$this->error('删除失败', '/index/main/main');
+		}
+	}
 }
 
 ?>

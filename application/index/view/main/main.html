@@ -54,6 +54,9 @@
 				<td>
 					<a href="#" onclick="changeBooks('{:url("index/book/getBook", ["book_id" => $item.book_id])}', {$item.book_id})" title="{$item.book_title}">{$item.book_title}</a>
 				</td>
+				<td>
+					<a href="{:url('/index/book/deleteBook', ['book_id' => $item.book_id])}" title="删除">x</a>
+				</td>
 			</tr>
 			{/foreach}
 
