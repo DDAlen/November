@@ -7,11 +7,15 @@ use think\Request;
 /**
 * 文章管理
 */
-class Book extends Controller
+class Book extends Base
 {
 	protected $is_login = ['*'];
 	public function add()
 	{
+		if (input('noteId') == 0)
+		{
+			$this->error('请先添加一个分类', '/index/note/editNote');
+		}
 		return $this->fetch('add', ['note_id' => input('noteId')]);		
 	}
 
@@ -22,6 +26,11 @@ class Book extends Controller
 			$this->error('未知错误', '/index/main/main');
 		}
 		
+		if (Request::instance()->param('note_id') == 0)
+		{
+			$this->error('请先添加一个分类', '/index/note/editNote');
+		}
+
 		if (BookModel::create([
 			'note_id' => Request::instance()->param('note_id'),
 			'user_id' => session('id'),
@@ -43,7 +52,7 @@ class Book extends Controller
 
 	public function updateBooks()
 	{
-		$book = BookModel::get(Request::instance()->param('bookId'));
+		$book = BookModel::get(Request::instance()->param('book_id'));
 		if (empty($book))
 		{
 			$this->error('乱改数据了吧', '/index/main/main');

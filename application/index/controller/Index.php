@@ -19,11 +19,10 @@ class Index extends Base
 	
 	public function login()
 	{
-		/*if(!captcha_check(input('post.validateCode')))
+		if(!captcha_check(input('post.validateCode')))
 		{
-            // 校验失败
             $this->error('验证码不正确', 'index/Index/index');
-        }*/
+        }
 
 		$user = new UserModel();
 		$res = $user->where('user_name', input('post.userName'))->where('deleted', 0)->find();

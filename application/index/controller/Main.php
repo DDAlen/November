@@ -26,6 +26,7 @@ class Main extends Controller
 		
 		return $this->fetch('main', [
 			'addUrl' => '/index/Book/add/noteId/'. $noteId,
+			'noteId' => $noteId,
 			'user' => UserModel::get(session('id')),
 			'data' => $notes->scanNote($noteId),
 			'book' => $books->where('user_id', session('id'))->where('delete', 0)->where('note_id', $noteId)->select(),

@@ -1,6 +1,6 @@
 <?php
 namespace app\index\Controller;
-use think\Controller;
+use think\Db;
 use app\index\Model\Note as NoteModel;
 use think\Helper;
 use think\Request;
@@ -13,7 +13,7 @@ class Note extends Base
 
 	public function editNote()
 	{
-		return $this->fetch();
+		return $this->fetch('editNote', ['data' => Db::name('note')->where(['delete' => 0, 'user_id' => session('id')])->select()]);
 	}
 
 	//发布文章
@@ -35,7 +35,7 @@ class Note extends Base
 		{
 			$data['user_id'] = session('id');
 			$data['note_name'] = input('post.bookName');
-			$note = NoteModel::where('note_name', input('post.parentName'))->where('user_id', session('id'))->find();
+			$note = NoteModel::where('note_id', input('post.note_id'))->where('user_id', session('id'))->find();
 			$data['parent_id'] = empty($note) ? 0 : $note['note_id'];
 			
 			if (NoteModel::create($data))
