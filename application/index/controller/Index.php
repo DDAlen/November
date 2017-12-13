@@ -7,9 +7,10 @@ use app\index\model\User as UserModel;
 /**
 * 	点击验证码刷新
 */
-class Index extends Controller
+class Index extends Base
 {
 	//登录界面
+	protected $is_login = ['error'];
 	public function index()
 	{
 		session(null);

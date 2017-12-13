@@ -3,9 +3,10 @@ namespace app\index\Model;
 use think\Model;
 /**
 * 
-*/
-class EventLog extends Model
+*/		
+class Book extends Model
 {
-	
+
 }
+
 ?>

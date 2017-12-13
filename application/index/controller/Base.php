@@ -7,10 +7,10 @@ use think\Request;
 */
 class Base extends Controller
 {
-	
+	protected $is_login = [];
     public function _initialize()
     {
-        if (!session('?userName'))
+        if ((!session('?userName') && in_array(Request::instance()->action(), $this->is_login)) && $this->is_login[0] == '*')
         {
         	$this->error('请先登录', 'Index/index');
         }
@@ -18,5 +18,4 @@ class Base extends Controller
        EventManage::exitEventConditions(Request::instance()->controller() . '/' . Request::instance()->action());
     }
 }
-
 ?>

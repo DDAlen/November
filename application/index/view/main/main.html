@@ -1,6 +1,23 @@
 {layout name="layout" /}
 <link rel="stylesheet" href="/css/admin/main/main.css" />
 
+{literal}
+  <style>
+  .div1 {
+            background-color: lightseagreen;
+            width: 15%;
+            height: 100%;
+            float: left;
+        }
+ 
+        .div2 {
+            background-color: chocolate;
+            height: 100%;
+            width:85%;
+            float: left;
+        }
+    </style>
+{/literal}
 <div>
 	<span>用户名：{$user->user_name}</span>
 	<span>积分：{$user->user_point}</span>
@@ -9,9 +26,62 @@
 </div>
 
 <div>
-	我的列表
-</div>
+	
 <ul id="menu">
-	 <li><a href="#">新增笔记</a></li>
-	 <li><a href="#">修改笔记</a></li>
+	 <li><a href="{:url('/index/main/main')}">返回最顶级</a></li>
+	 <li><a href="{:url('/index/note/editNote')}">新增分类</a></li>
 </ul>
+</div>
+<br />
+<br />
+<span>目录</span>
+<div id= 'note' style="border: 1px solid #bbb">
+	<table>
+		<tr>
+			{foreach $data as $item}
+			<td><a type="button" name="" href="{:url('/index/note/scanNote/noteId/' . $item.note_id)}">{$item.note_name}</a></td>
+			{/foreach}
+		</tr>
+	</table>
+</div>
+	<div id='title'  class="div1">
+	<span>文章</span>
+	<table align="center">
+			{foreach $book as $item}
+			<tr>
+				<td>
+					<a href="{:url('/index/note/scanNote/noteId/' . $item.note_id)}">{$item.book_title}</a>
+				</td>
+			</tr>
+			{/foreach}
+			<tr>
+				<td><a href="">新增文章</a></td>
+			</tr>
+	</table>	
+	</div>
+
+	<div id = 'contect' class="div2">
+		<table align="center">
+			<tr>
+				<td>
+					<span>内容</span>
+					
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea rows="18" cols="80">
+						
+					</textarea>
+					<input type="button" name="" value="保存">
+				</td>
+			</tr>
+		</table>
+	</div>
+
+
+
+{literal}
+<script type="text/javascript">
+</script>
+{/literal}
