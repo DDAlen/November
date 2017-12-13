@@ -8,14 +8,38 @@
 <br />
 <div>
 	<form action= "{:url('index/User/addUser')}" method="post" onsubmit="return validate()">
-	账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：<input type="text" name="userName" onblur="validateUserName('{:url('index/User/validateUserName')}')">  
-	<span></span>	
-	<br />
-	密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="text" name="userPassword" value="">	
-	<br />
-	重复密码：<input type="text" name="userPasswordTwo" value="">	
-	<br />
-	验 证 码：<input type="test" name="validateCode" value="">		
+		<table align="center">
+			<tr>
+				<td>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</td>
+				<td><input type="text" name="userName" onblur="validateUserName('{:url('index/User/validateUserName')}')"><span></span></td>
+			</tr>
+			<tr>
+				<td>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+				<td><input type="text" name="userPassword" value=""></td>
+			</tr>
+			<tr>
+				<td>重复密码：</td>
+				<td><input type="text" name="userPasswordTwo" value="">	</td>
+			</tr>
+			<tr>
+				<td>密保问题：</td>
+				<td>
+					<select name="question_id">
+						{volist name="question" id="vo"}
+							<option value="{$vo.question_id}">{$vo.question}</option>
+						{/volist}
+				    </select> 
+			</td>
+			</tr>
+			<tr>
+				<td>回答：</td>
+				<td><input type="test" name="answer" value=""></td>
+			</tr>
+			<tr>
+				<td>验 证 码：</td>
+				<td><input type="test" name="validateCode" value=""></td>
+			</tr>
+		</table>
 	<div>{:captcha_img()}</div>
 	<br />
 	<input id='register'  type="submit" value="注册" class="widthly" >
@@ -23,32 +47,43 @@
 </div>
 
 {literal}
-<script>
+<script type="text/javascript">
 	var validateName = false;
 	function validate()
 	{
-		if(trim($("input[name='userPassword']").val()) != trim($("input[name='userPasswordTwo']").val()))
+		if($("input[name='userPassword']").val() != $("input[name='userPasswordTwo']").val())
 		{
 			console.log($("input[name='userPassword']").val());
 			console.log('俩次密码不一样');
 			console.log($("input[name='userPasswordTwo']").val());
 			return false;
 		}
+		
+		if ($("input['name'=answer]").val().trim().length == 0)
+		{
+			console.log(11);
+			return false;
+		}
+
 		return validateName;
 	}
 
 	function validateUserName(url)	
 	{
+		if (($("input[name='userName']").val()).trim().length == 0)
+		{
+			return;
+		}
+
 		$.ajax({
 			url : url,
 			type : 'post',
 			dataType : 'json',
 			timeout : 3000,
 			data : {
-				userName : $("input[name='userName']").val()
+				userName : $("input[name='userName']").val().trim()
 			},
 			success : function(result){
-				console.log(result);
 				validateName = result['result'];
 				$('span').html(result['message']);
 			},
@@ -59,5 +94,4 @@
 	}
 </script>
 {/literal}
-
 

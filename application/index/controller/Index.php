@@ -44,9 +44,15 @@ class Index extends Base
 		}
 	}
 
+	public function loginOut()
+	{
+		session(null);
+		$this->redirect('/index/index/index');
+	}
+
 	public function register()
 	{
-		return $this->fetch();	
+		return $this->fetch('register', ['question' => DB::name('question')->where('delete', 0)->select()]);	
 	}
 }
 

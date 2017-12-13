@@ -19,7 +19,7 @@ CREATE TABLE `think_note` (
   UNIQUE KEY `note_name` (`note_name`,`user_id`) USING BTREE
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `think_questioin` (
+CREATE TABLE `think_question` (
   `question_id` int(11) NOT NULL AUTO_INCREMENT,
   `question` varchar(255) DEFAULT NULL COMMENT '问题',
   `delete` tinyint(1) DEFAULT '0' COMMENT '1是删除',

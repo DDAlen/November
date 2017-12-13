@@ -21,7 +21,6 @@ class Book extends Controller
 		{
 			$this->error('未知错误', '/index/main/main');
 		}
-
 		
 		if (BookModel::create([
 			'note_id' => Request::instance()->param('note_id'),
@@ -60,7 +59,7 @@ class Book extends Controller
 		{
 			$this->error('修改失败', '/index/main/main');
 		}
-		
+
 		$this->success('修改成功', '/index/main/main');
 	}
 }
