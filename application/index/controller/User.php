@@ -12,11 +12,11 @@ class User extends controller
 	
 	public function addUser()
 	{
-		/*if(!captcha_check(input('post.validateCode')))
+		if(!captcha_check(input('post.validateCode')))
 		{
             // 校验失败
             $this->error('验证码不正确', 'index/Index/register');
-        }*/
+        }
        
         if (UserModel::get(['user_name' => input('post.userName')]))
     	{
@@ -78,14 +78,49 @@ class User extends controller
     	echo json_encode(['result' => true, 'message' => input('post.userName').'可用']);
 	}
 
+    //忘记密码页面
     public function forgetPassword()
     {
-        return $this->fetch();
+        return $this->fetch('forgetPassword', ['question' => DB::name('question')->where('delete', 0)->select()]);    
     }
 
+    //修改密码
     public function editPassword()
     {
+        if (!Request::instance()->isPost())
+        {
+            $this->error('未知错误', 'index/Index/index');
+        }
 
+        if(!captcha_check(input('post.validateCode')))
+        {
+            // 校验失败
+            $this->error('验证码不正确', 'index/Index/register');
+        }
+
+        $users = new UserModel();
+        $user = $users->where(['deleted' => 0, 'user_name' => Request::instance()->param('user_name')])->find();
+        if (empty($user))
+        {
+            $this->error('账号错误', 'index/User/forgetPassword');
+        }
+
+        $answer = DB::name('user_answers')->where(['user_id' => $user->id, 'question_id' => Request::instance()->param('question_id')])->find();
+        if (empty($answer['user_anwers']) || $answer['user_anwers'] != trim(Request::instance()->param('answer')))
+        {
+           $this->error('回答问题错误', 'index/User/forgetPassword');
+        }
+
+        $user->user_password = md5(trim(Request::instance()->param('userPasswordTwo')));
+
+        if ($user->save())
+        {
+            $this->success('修改密码成功', 'index/index/index');
+        }
+        else
+        {
+             $this->error('修改密码失败', 'index/User/forgetPassword');
+        }
     }
 }
 
