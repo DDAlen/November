@@ -1,0 +1,26 @@
+{layout name="layout" /}
+{literal}
+<script type="text/javascript" src='/js/common.js'></script>
+{/literal}
+<div>
+	<form action="{:url('/index/book/createBook')}" method="post">
+		<table align="center" style="text-align:center;" cellpadding="3" cellspacing="0" style="width: 60%;margin:auto">
+			<tr>
+				<td><span>标题:</span></td>
+				<td><input type="text" name="book_title">
+			</tr>
+			<tr>
+				<td><span>内容:</span></td>
+				<td><textarea rows="10" cols="20" name="book_text"></textarea></td>
+			</tr>
+		</table>
+
+		<input type="hidden" name="note_id" value="{$note_id}">
+				<br /> 	
+		<input type="submit" name="" value="提交">
+		<input type="button" name="" value="取消" onclick="cancel()">
+
+	</form>
+</div>
+
+

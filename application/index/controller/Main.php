@@ -23,14 +23,14 @@ class Main extends Controller
 		$notes = new NoteModel();
 		$books = new BookModel();
 		$book = null;
-
+		
 		return $this->fetch('main', [
+			'addUrl' => '/index/Book/add/noteId/'. $noteId,
 			'user' => UserModel::get(session('id')),
 			'data' => $notes->scanNote($noteId),
 			'book' => $books->where('user_id', session('id'))->where('delete', 0)->where('note_id', $noteId)->select(),
 		]);
 	}
-
 }
 
 ?>
