@@ -9,6 +9,7 @@ use app\index\Model\User as UserModel;
 */
 class EventManage 
 {
+	//处理事件
 	public static function dealWithEvent($eventName)
 	{
 		$eventModel = new EventModel();
@@ -61,6 +62,9 @@ class EventManage
 			return true;
 		}
 
+		//周期类型，1天，2周，3月，4年，5不限，6一次性
+		
+
 		$eventLog = new EventLogModel();
 		if ($event->cycle_days == 0)
 		{
@@ -77,7 +81,6 @@ class EventManage
 
 		if (floor($days) == $days)
 		{ 
-			dump('整天');
 			$floor_date = (max(0, ($days - 1)) + 1) *  $event->cycle_days . " days";
 			$ceil_date = ((max(1, $days) + 1) *  $event->cycle_days) . " days";
 		}

@@ -18,13 +18,13 @@ class EventManage
 		{
 			return false;
 		}
-echo 1;
+
 		//不限
 		if ((int)$event->cycle_count == 0)
 		{
 			return true;
 		}
-echo 2;
+
 		$eventLog = new EventLogModel();
 		if ($event->cycle_days == 0)
 		{
@@ -35,7 +35,7 @@ echo 2;
 			}
 			return false;
 		}
-echo 3;
+
 		//判定是否满足周期 次数
 
 		$days = date_diff(date_create(date('Y-m-d H:i:s')), date_create($event->startTime))->days / $event->cycle_days;

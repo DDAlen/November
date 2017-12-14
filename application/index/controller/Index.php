@@ -33,8 +33,8 @@ class Index extends Base
 		
 		if ($res['user_password'] === md5(input('post.userPassword')))
 		{
-			session('userName', input('post.userName'));
-			session('id', $res['id']);
+			
+			session('user_id', $res['id']);
 			EventManage::dealWithEvent('index/index/login');
 			$this->redirect('Main/main');
 		}

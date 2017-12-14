@@ -33,7 +33,7 @@ class Book extends Base
 
 		if (BookModel::create([
 			'note_id' => Request::instance()->param('note_id'),
-			'user_id' => session('id'),
+			'user_id' => session('user_id'),
 			'book_title' =>  Request::instance()->param('book_title'),
 			'book_text' =>  Request::instance()->param('book_text'),
 		])->book_id  > 0)
@@ -53,13 +53,13 @@ class Book extends Base
 
 	public function updateBooks()
 	{
-		$book = BookModel::get(Request::instance()->param('book_id'));
+		$book = BookModel::get(Request::instance()->param('bookId'));
 		if (empty($book))
 		{
 			$this->error('乱改数据了吧', '/index/main/main');
 		}
 
-		if ($book->user_id != session('id') || $book->book_text == Request::instance()->param('book_text'))
+		if ($book->user_id != session('user_id') || $book->book_text == Request::instance()->param('book_text'))
 		{
 			$this->error('不是你的就不要动', '/index/main/main');
 		}
@@ -81,7 +81,7 @@ class Book extends Base
 			$this->error('乱改数据了吧', '/index/main/main');
 		}
 
-		if ($book->user_id != session('id') || $book->book_text == Request::instance()->param('book_text'))
+		if ($book->user_id != session('user_id') || $book->book_text == Request::instance()->param('book_text'))
 		{
 			$this->error('不是你的就不要动', '/index/main/main');
 		}

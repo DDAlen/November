@@ -9,16 +9,10 @@ use think\Request;
 /**
 * 
 */
-class Main extends Controller
+class Main extends Base
 {
 	public function main($noteId = 0)
 	{
-		if(!session('?userName') || ! session('?id'))
-		{
-			$this->error('请先登录', 'index/Index/index');
-			return;
-		}
-
 		$notes = new NoteModel();
 		$books = new BookModel();
 		$book = null;
@@ -26,9 +20,9 @@ class Main extends Controller
 		return $this->fetch('main', [
 			'addUrl' => '/index/Book/add/noteId/'. $noteId,
 			'noteId' => $noteId,
-			'user' => UserModel::get(session('id')),
+			'user' => UserModel::get(session('user_id')),
 			'data' => $notes->scanNote($noteId),
-			'book' => $books->where('user_id', session('id'))->where('delete', 0)->where('note_id', $noteId)->select(),
+			'book' => $books->where('user_id', session('user_id'))->where('delete', 0)->where('note_id', $noteId)->select(),
 		]);
 	}
 }
