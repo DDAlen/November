@@ -17,7 +17,7 @@
 	<div style="display: none;position: relative;top: 20px;" id='newQuestion'>
 		<span>问题</span><input type="text" name="question" value="">
 		<br />
-		<input type="button" name="" value="提交" onclick="submit({:url('/admin/question/addQuestion')})">
+		<input type="button" name="" value="提交" onclick="submit('{:url("/admin/question/addQuestion")}')">
 		<input type="button" name="" value="取消" onclick="cancel()">
 	</div>
 </div>
@@ -46,7 +46,7 @@
 			  url: url,
  			 data: {question : $("input[name='question']").val().trim()},
 		  success: function(){
-		  		
+		  		location.reload();
 		  }});
 	}
 </script>

@@ -23,14 +23,25 @@ class Question extends Base
 	}
 
 	public function addQuestion()
-	{
-		if (!Request::instance()->isPost())
+	{ 
+		try
 		{
-			$this->redirect('/admin/question/list');
-		}
+			dump(1);
+			if (!Request::instance()->isPost())
+			{
+				return;
+			}
 
-		
-		$this->redirect('/admin/question/list');
+			$question = trim(input('post.question'));
+			if (empty(Db::name('question')->where('question', $question)->find()))
+			{
+				Db::name('question')->insert(['question' => $question]);
+			}
+		}
+		catch(Exception $e)
+		{
+			echo $e->getMessage();
+		}
 	}
 }
 
