@@ -19,27 +19,28 @@ class Index extends Base
 	
 	public function login()
 	{
-		if(!captcha_check(input('post.validateCode')))
+		/*if(!captcha_check(input('post.validateCode')))
 		{
             $this->error('验证码不正确', 'index/Index/index');
-        }
+        }*/
 
 		$user = new UserModel();
 		$res = $user->where('user_name', input('post.userName'))->where('deleted', 0)->find();
 		if (null === $res)
 		{
-			$this->error('用户名错误', 'index/Index/index');
+			$this->error('账号或密码错误', 'index/Index/index');
 		}
 		
 		if ($res['user_password'] === md5(input('post.userPassword')))
 		{
 			session('userName', input('post.userName'));
 			session('id', $res['id']);
-			$this->redirect('Main/main');
+			EventManage::dealWithEvent('index/index/login');
+			//$this->redirect('Main/main');
 		}
 		else
 		{
-			$this->error('密码错误', 'Index/index');
+			$this->error('账号或密码错误', 'Index/index');
 		}
 	}
 

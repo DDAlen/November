@@ -10,12 +10,10 @@ class Base extends Controller
 	protected $is_login = [];
     public function _initialize()
     {
-        if ((!session('?userName') && in_array(Request::instance()->action(), $this->is_login)) && $this->is_login[0] == '*')
+        if (!session('?userName') && (in_array(Request::instance()->action(), $this->is_login) || empty($this->is_login)))
         {
         	$this->error('请先登录', 'Index/index');
         }
-
-       EventManage::exitEventConditions(Request::instance()->controller() . '/' . Request::instance()->action());
     }
 }
 ?>

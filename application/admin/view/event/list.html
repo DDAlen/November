@@ -30,13 +30,13 @@
 				<td>{$item.wealth}</td>
 				<td>{$item.prestige}</td>
 				<td>{$item.point}</td>
-				<td><a href="{:url('/admin/event/deleteEvent/id/' . $item:id)}">删除</a></td>
+				<td><a href="{:url('/admin/event/editEvent/id/' . $item:id)}">修改</a></td>
 			</tr>
 		{/foreach}
 		</table>
-		<div align="right">
+		<!--<div align="right">
 			<input type="button" name="" value="添加" onclick="add()" style="width: 80px;">
-		</div>
+		</div>-->
 	</div>
 
 	<div id='add' style="display: none">

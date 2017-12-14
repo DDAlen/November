@@ -33,8 +33,8 @@ class Index extends Controller
 		
 		if ($res['user_password'] === md5(input('post.userPassword')))
 		{
-			session('userName', input('post.userName'));
-			session('id', $res['id']);
+			session('adminUserName', input('post.userName'));
+			session('adminId', $res['id']);
 			$this->redirect('Main/main');
 		}
 		else

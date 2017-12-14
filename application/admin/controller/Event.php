@@ -1,6 +1,8 @@
 <?php
 namespace app\admin\Controller;
 use app\admin\Model\Event as EventModel;
+use think\Request;
+use think\Db;
 /**
 * 
 */
@@ -33,10 +35,19 @@ class Event extends Base
 		$this->error('删除失败', 'Event/list');
 	}
 
+	public function editEvent()
+	{
+		return $this->fetch('editEvent', ['event' => EventModel::get(input('id'))]);
+	}
+
 	public function updateEvent()
 	{
-		$this->success('更新成功', 'Event/list');
-		if (EventModel::update(['id' => input('post.eventId'), 'delete' => 0]) > 0)
+		if (!Request::instance()->isPost())
+		{
+			$this->error('未知错误', '/admin/index/index');
+		}
+
+		if (Db::name('event')->update(input('post.')))
 		{
 			$this->success('更新成功', 'Event/list');
 		}	

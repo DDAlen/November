@@ -11,7 +11,6 @@ use think\Request;
 */
 class Main extends Controller
 {
-	protected $is_login = ['*'];
 	public function main($noteId = 0)
 	{
 		if(!session('?userName') || ! session('?id'))

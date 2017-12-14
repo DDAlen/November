@@ -38,6 +38,7 @@ class Book extends Base
 			'book_text' =>  Request::instance()->param('book_text'),
 		])->book_id  > 0)
 		{
+			EventManage::dealWithEvent('index/book/createBook');
 			$this->success('发布成功', '/index/main/main');
 		}
 
