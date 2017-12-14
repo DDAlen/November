@@ -1,6 +1,55 @@
-{layout name="layout" /}
+{extend name="main/main" /}
 
-<div align="left">
-	<a href="{:url('admin/main/main')}">返回</a>
+{block name="contect"}
+<div>
+	<table align="center">
+		{volist name= "question" id="vo"}
+			<tr>
+				<td>{$vo.question_id}</td>
+				<td>{$vo.question}</td>
+				<td><a href="{:url('/admin/question/delete', ['id' => $vo.question_id])}" title="删除">x</a></td>
+			</tr>
+		{/volist}
+	</table>
+
+	<input type="button" name="" value="新增" onclick="addButton()">
+
+	<div style="display: none;position: relative;top: 20px;" id='newQuestion'>
+		<span>问题</span><input type="text" name="question" value="">
+		<br />
+		<input type="button" name="" value="提交" onclick="submit({:url('/admin/question/addQuestion')})">
+		<input type="button" name="" value="取消" onclick="cancel()">
+	</div>
 </div>
+{literal}
+<script type="text/javascript">
+
+	function addButton()
+	{
+		$('#newQuestion').slideDown(500);
+	}
+
+	function cancel()
+	{
+		$('#newQuestion').slideUp(500);
+	}
+
+	function submit(url)
+	{
+		if ($("input[name='question']").val().trim().length == 0)
+		{
+			alert('内容不能为空');
+		}
+
+		$.ajax({
+			type: 'POST',
+			  url: url,
+ 			 data: {question : $("input[name='question']").val().trim()},
+		  success: function(){
+		  		
+		  }});
+	}
+</script>
+{/literal}
+{/block}
 

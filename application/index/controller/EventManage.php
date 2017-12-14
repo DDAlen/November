@@ -15,8 +15,7 @@ class EventManage
 		$event = $eventModel->where('delete', 0)->where('envet_name', $eventName)->where('end_time > NOW()')->find();
 		if (self::exitEventConditions($event))
 		{
-			dump('执行事件');
-			//跟新积分等，添加日志
+			//更新积分等，添加日志
 			$data = [
 				'user_id' => session('id'),
 				 'event_id' => $event->id,
@@ -39,10 +38,6 @@ class EventManage
 			{
 				Db::rollback();
 			}
-		}
-		else
-		{
-			dump('不满足条件了');
 		}
 	}
 
@@ -79,7 +74,6 @@ class EventManage
 
 		//判定是否满足周期 次数
 		$days = date_diff(date_create(date('Y-m-d H:i:s')), date_create($event->start_time))->days / $event->cycle_days;
-	dump($days);
 
 		if (floor($days) == $days)
 		{ 
@@ -92,13 +86,9 @@ class EventManage
 			$floor_date = max(0, (floor($days))) *  $event->cycle_days . " days";
 			$ceil_date = (max(1, ceil($days)) *  $event->cycle_days - 1) . " days";
 		}
-dump($floor_date);
-dump($ceil_date);
+
 		$days_floor_day = date_format(date_add(date_create($event->start_time), date_interval_create_from_date_string($floor_date)), "Y-m-d 00:00:00");
 		$days_ceil_day  = date_format(date_add(date_create($event->start_time), date_interval_create_from_date_string($ceil_date)), "Y-m-d 23:59:59");
-
-dump($days_floor_day);
-dump($days_ceil_day);
 
 		if (Db::name('event_log')->where(['user_id' => session('id'), 'event_id' => $event->id])->where('add_time', 'BETWEEN', [$days_floor_day, $days_ceil_day])->count()< $event->cycle_count)
 		{

@@ -36,7 +36,7 @@ class Index extends Base
 			session('userName', input('post.userName'));
 			session('id', $res['id']);
 			EventManage::dealWithEvent('index/index/login');
-			//$this->redirect('Main/main');
+			$this->redirect('Main/main');
 		}
 		else
 		{

@@ -1,15 +1,36 @@
 <?php
 namespace app\admin\Controller;
-
+use think\Db;
+use think\Request;
 /**
 * 
 */
 class Question extends Base
 {
-	protected $isLoginIn = ['*'];
 	public function list()
 	{
-		return $this->fetch();
+		return $this->fetch('list', ['question' => Db::name('question')->where('delete',0)->select()]);
+	}
+
+	public function delete()
+	{
+		if (Db::name('question')->update(['question_id' => input('id'), 'delete' => 1]))
+		{
+			//$this->success('修改成功','/admin/question/list');
+			$this->redirect('/admin/question/list');
+		}
+		$this->error('删除失败', '/admin/question/list');
+	}
+
+	public function addQuestion()
+	{
+		if (!Request::instance()->isPost())
+		{
+			$this->redirect('/admin/question/list');
+		}
+
+		
+		$this->redirect('/admin/question/list');
 	}
 }
 
