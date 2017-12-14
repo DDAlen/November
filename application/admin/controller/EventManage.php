@@ -11,7 +11,6 @@ class EventManage
 	//判断是否存在事件且满足条件
 	public function exitEventConditions($eventName) 
 	{
-		var_dump(111);
 		$eventModel = new EventModel();
 		$event = $eventModel->where('delete', 0)->where('envet_name', "'{$eventName}'")->where('end_time < NOW()')->find();
 		if (empty($envet))

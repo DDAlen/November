@@ -15,5 +15,11 @@ class Base extends Controller
         	$this->error('请先登录', 'Index/index');
         }
     }
+    /*
+	Db::listen(function($sql, $time, $explain){
+  		  // 记录SQL
+   		 echo $sql. ' ['.$time.'s]';
+	});
+    */
 }
 ?>
