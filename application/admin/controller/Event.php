@@ -12,7 +12,8 @@ class Event extends Base
 	public function list()
 	{
 		$eventModel = new EventModel();
-		return $this->fetch('', ['data' => $eventModel->where('delete', 0)->select()]);
+
+		return $this->fetch('', ['data' => Db::name('event')->alias('e')->join('think_event_type t', 't.cycle_id=e.cycle_type')->where(['e.delete' => 0, 't.delete' => 0])->select()]);
 	}
 
 	public function add()
@@ -37,7 +38,15 @@ class Event extends Base
 
 	public function editEvent()
 	{
-		return $this->fetch('editEvent', ['event' => EventModel::get(input('id'))]);
+				Db::listen(function($sql,$time,$explain){
+ 	   // 记录SQL
+			echo '<br />';
+  		  echo $sql. ' ['.$time.'s]';echo '<br />';
+		});
+		return $this->fetch('editEvent', [
+			'event' =>  Db::name('event')->alias('e')->join('think_event_type t', 't.cycle_id=e.cycle_type')->where(['e.delete' => 0, 't.delete' => 0, 'e.id' => input('id')])->find(),
+			'type' => Db::name('event_type')->where('delete', 0)->select(),
+		]);
 	}
 
 	public function updateEvent()

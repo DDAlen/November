@@ -63,9 +63,25 @@ class EventManage
 		}
 
 		//周期类型，1天，2周，3月，4年，5不限，6一次性
-		
-
+		//date("Y-m-d",strtotime("+1months",strtotime("2015-11-27"))); 
 		$eventLog = new EventLogModel();
+		if($event->cycle_type == 1)
+		{
+
+		}
+		else if ($event->cycle_type == 2)
+		{
+				
+		}
+		else if ($event->cycle_type == 3)
+		{
+
+		}
+		else if ($event->cycle_type == 4)
+		{
+
+		}
+
 		if ($event->cycle_days == 0)
 		{
 			//无限长，只判断个数

@@ -11,8 +11,9 @@
 		<table id='table' align="center" style="border: 1px solid #151515;cellspacing:0;cellpadding:0; ">
 			<tr>
 				<td>描述</td>
-				<td>周期天数</td>
-				<td >次数</td>
+				<td>周期数</td>
+				<td>周期类型</td>
+				<td>最大执行次数</td>
 				<td>开始时间</td>
 				<td>结束时间</td>
 				<td>财富</td>
@@ -23,14 +24,15 @@
 		{foreach $data as $item}
 			<tr>
 				<td>{$item.envet_descript}</td>
-				<td>{$item.cycle_days}</td>
+				<td>{$item.cycle_num}</td>
+				<td>{$item.description}</td>
 				<td>{$item.cycle_count}</td>
 				<td>{$item.start_time}</td>
 				<td>{$item.end_time}</td>
 				<td>{$item.wealth}</td>
 				<td>{$item.prestige}</td>
 				<td>{$item.point}</td>
-				<td><a href="{:url('/admin/event/editEvent/id/' . $item:id)}">修改</a></td>
+				<td><a href="{:url('/admin/event/editEvent/id/' . $item.id)}">修改</a></td>
 			</tr>
 		{/foreach}
 		</table>

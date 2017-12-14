@@ -12,9 +12,20 @@
 				<td></td>
 			</tr>
 			<tr>
-				<td>周期天数</td>
-				<td><input type="" name="cycle_days" value="{$event.cycle_days}"></td>
-				<td><span>-1为关闭, 0为仅一次</span></td>
+				<td>周期类型</td>
+				<td>
+					<select style="width:174px;" name="cycle_type">
+						{volist name="type" id="vo"}
+							<option value="{$vo.cycle_id}"  {if ($event.description == $vo.description)} selected="selected" {/if}>{$vo.description}</option>
+						{/volist}
+					</select>
+				</td>
+				<td><span></span></td>
+			</tr>
+			<tr>
+				<td>周期时长</td>
+				<td><input type="" name="cycle_num" value="{$event.cycle_num}"></td>
+				<td></td>
 			</tr>
 			<tr>
 				<td>次数</td>

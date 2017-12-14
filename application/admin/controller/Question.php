@@ -16,7 +16,6 @@ class Question extends Base
 	{
 		if (Db::name('question')->update(['question_id' => input('id'), 'delete' => 1]))
 		{
-			//$this->success('修改成功','/admin/question/list');
 			$this->redirect('/admin/question/list');
 		}
 		$this->error('删除失败', '/admin/question/list');
@@ -26,7 +25,6 @@ class Question extends Base
 	{ 
 		try
 		{
-			dump(1);
 			if (!Request::instance()->isPost())
 			{
 				return;
