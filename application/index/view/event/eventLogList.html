@@ -1,0 +1,25 @@
+{layout name="layout" /}
+
+<div style="border: 1px solid blue;align-content: :center;">
+	<table align="center" style="border: 1px solid red;">
+		<tr>
+			<td>编号</td>
+			<td>描述</td>
+			<td>财富</td>
+			<td>积分</td>
+			<td>威望</td>
+			<td>时间</td>
+		</tr>
+		{volist name="data" id="vo"}
+			<tr>
+				<td>{$vo.id}</td>
+				<td>{$vo.descript}</td>
+				<td>{$vo.wealth}</td>
+				<td>{$vo.point}</td>
+				<td>{$vo.prestige}</td>
+				<td>{$vo.add_time}</td>
+			</tr>
+		{/volist}
+	</table>	
+
+</div>

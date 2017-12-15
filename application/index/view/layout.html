@@ -3,7 +3,7 @@
 <head>
 	<title>NOTE</title>
 </head>
-
+<link rel="stylesheet" href="/css/admin/main/main.css" />
 <script type="text/javascript" src="/js/jquery-3.2.1.js"></script>
 
 <body style="text-align:center">
@@ -11,6 +11,19 @@
 	<div style="width:100%;height:50px;border:1px solid #F00;margin:0 auto;">
 		我是顶
 	</div>
+
+
+<div>
+	
+<ul id="menu" {if (!session('?user_id'))} style="display: none;" {/if}>
+	 <li><a href="{:url('/index/main/main')}">返回主页面</a></li>
+	 <li><a href="{:url('/index/note/editNote')}">新增分类</a></li>
+	 <li><a href="{:url('/index/event/eventLogList')}">事件记录</a></li>
+	 <li><a href="{:url('/index/index/loginOut')}">退出登录</a></li>
+</ul>
+</div>
+<br />
+<br />
 
  	{__CONTENT__}
 
