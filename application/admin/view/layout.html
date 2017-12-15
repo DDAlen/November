@@ -3,22 +3,43 @@
 <head>
 	<title>后台管理</title>
 </head>
+<style type="text/css">
+	.noPre {
+		list-style: none;
+		float: left; 
+		padding:0;
+	 	margin:0;
+	 	text-align: center;
+	}
+	.clear {clear:both;}
+	li a.last {
+ border-right:0; /* 去掉左侧边框 */
+}
+</style>
 <script type="text/javascript" src="/js/jquery-3.2.1.js"></script>
-<link rel="stylesheet" href="/css/admin/main/main.css" />
 <body style="text-align:center">
 
 	<div style="width:100%;height:50px;border:1px solid #F00;margin:0 auto;">
 		我是顶
 	</div>
 
-
-<div>
-	<span>用户名：{:session('adminUserName')}</span>
-</div>
-
 	<div>
+		<span>用户名：{:session('adminUserName')}</span>
+	</div>
+
+	<div style="width: 10%;border: 1px solid red;float: left;">
+		<ul>
+			 <li class="noPre"><a href="{:url('/admin/main/main')}">返回首页</a></li>
+			 <li class="noPre"><a href="#">笔记管理</a></li>
+			 <li class="noPre"><a href="{:url('admin/event/list')}">事件列表</a></li>
+			 <li class="noPre"><a href="{:url('admin/question/list')}">密保问题</a></li>
+			 <li class="noPre"><a href="{:url('admin/index/loginOut')}">退出登录</a></li>
+		</ul>
+	</div>
+	<div style="border: 1px solid blue; width: 80%;float: left;">
 		{__CONTENT__}
 	</div>
+	<div class="clear"></div>
 
 	<div style="position: absolute;bottom: 0;padding: 25px 0;background-color: #AAA;width: 100%;">
 		我是脚

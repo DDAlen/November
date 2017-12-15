@@ -38,11 +38,6 @@ class Event extends Base
 
 	public function editEvent()
 	{
-				Db::listen(function($sql,$time,$explain){
- 	   // 记录SQL
-			echo '<br />';
-  		  echo $sql. ' ['.$time.'s]';echo '<br />';
-		});
 		return $this->fetch('editEvent', [
 			'event' =>  Db::name('event')->alias('e')->join('think_event_type t', 't.cycle_id=e.cycle_type')->where(['e.delete' => 0, 't.delete' => 0, 'e.id' => input('id')])->find(),
 			'type' => Db::name('event_type')->where('delete', 0)->select(),

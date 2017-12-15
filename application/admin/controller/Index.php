@@ -43,9 +43,11 @@ class Index extends Controller
 		}
 	}
 
-	public function register()
+	//退出登录
+	public function loginOut()
 	{
-		return $this->fetch();	
+		session(null);
+		$this->success('退出登录成功', '/admin/index/index');
 	}
 }
 
