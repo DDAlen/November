@@ -63,7 +63,7 @@ class User extends controller
             $this->error($e->getMessage(), '/index/index/register');
         }
   
-    	session('id',  $userId);
+    	session('user_id',  $userId);
     	session('userName', UserModel::get($userId)->user_name);
     	$this->success('注册成功','Main/main');
 	}
@@ -72,10 +72,10 @@ class User extends controller
 	{
 		if (UserModel::get(['user_name' => input('post.userName')]))
     	{
-    		echo json_encode(['result' => false, 'message' => input('post.userName').'不可用']);
+    		return json(['result' => false, 'message' => input('post.userName').'不可用']);
     	}
 
-    	echo json_encode(['result' => true, 'message' => input('post.userName').'可用']);
+    	return json(['result' => true, 'message' => input('post.userName').'可用']);
 	}
 
     //忘记密码页面

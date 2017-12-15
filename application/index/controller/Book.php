@@ -30,7 +30,7 @@ class Book extends Base
 		{
 			$this->error('请先添加一个分类', '/index/note/editNote');
 		}
-
+	
 		if (BookModel::create([
 			'note_id' => Request::instance()->param('note_id'),
 			'user_id' => session('user_id'),

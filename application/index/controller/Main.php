@@ -21,7 +21,7 @@ class Main extends Base
 			'addUrl' => '/index/Book/add/noteId/'. $noteId,
 			'noteId' => $noteId,
 			'user' => UserModel::get(session('user_id')),
-			'data' => $notes->scanNote($noteId),
+			'data' => $notes->getFirstNote($noteId),
 			'book' => $books->where('user_id', session('user_id'))->where('delete', 0)->where('note_id', $noteId)->select(),
 		]);
 	}

@@ -13,19 +13,7 @@ class Note extends Base
 
 	public function editNote()
 	{
-		return $this->fetch('editNote', ['data' => Db::name('note')->where(['delete' => 0, 'user_id' => session('id')])->select()]);
-	}
-
-	//发布文章
-	public function addBook()
-	{
-
-	}
-
-	//删除节点，内部文章也会删除
-	public function deleteNote()
-	{
-
+		return $this->fetch('editNote', ['data' => Db::name('note')->where(['delete' => 0, 'user_id' => session('user_id')])->select()]);
 	}
 	
 	//添加节点
@@ -33,9 +21,9 @@ class Note extends Base
 	{
 		if(Request::instance()->isPost())
 		{
-			$data['user_id'] = session('id');
+			$data['user_id'] = session('user_id');
 			$data['note_name'] = input('post.bookName');
-			$note = NoteModel::where('note_id', input('post.note_id'))->where('user_id', session('id'))->find();
+			$note = NoteModel::where('note_id', input('post.note_id'))->where('user_id', session('user_id'))->find();
 			$data['parent_id'] = empty($note) ? 0 : $note['note_id'];
 			
 			if (NoteModel::create($data))
