@@ -1,5 +1,5 @@
 <?php
-namespace app\index\Controller;
+namespace app\index\logic;
 use app\index\Model\Event as EventModel;
 use app\index\Model\EventLog as EventLogModel;
 use think\Db;

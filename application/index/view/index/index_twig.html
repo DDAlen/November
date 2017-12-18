@@ -4,12 +4,12 @@
 	<script type="text/javascript" src="/js/adminIndex.js"></script>
 
 <div style="float:right;">
-	<a href="{:url('index/Index/index')}">登录</a>
-	<a href="{:url('index/Index/register')}">注册</a>
+	<a href="{{ loginUrl }}">登录</a>
+	<a href="{{ register }}">注册</a>
 </div>
 <br />
 <div>
-	<form action= "{:url('index/Index/login')}" method="post">
+	<form action= "{{ loginUrl }}" method="post">
 	账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：<input type="text" name="userName" value="">		
 	<br />
 	密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="password" name="userPassword" value="">	

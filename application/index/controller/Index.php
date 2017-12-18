@@ -4,15 +4,14 @@ use think\Controller;
 use think\Request;
 use think\Db;
 use app\index\model\User as UserModel;
-
+use app\index\validate\user\UserLogin;
+use app\index\logic\User as UserLogic;
 /**
 * 	点击验证码刷新
 */
-class Index extends Base
+class Index extends Controller
 {
 	//登录界面
-	protected $is_login = ['error'];
-
 	public function _empty()
 	{
 		return $this->index();
@@ -21,7 +20,11 @@ class Index extends Base
 	public function index()
 	{
 		session(null);
-		return $this->twig('', ['data' => ['name' => '紫霞', 'message' => '测试twigMessage']]);
+		$data = [
+			'loginUrl' => '/index/index/login',
+			'register' => '/index/index/register',
+		];
+		return $this->twig('', $data);
 		 //return $this->fetch('index', ['data' => '测试twig']);
 	}
 	
@@ -32,23 +35,43 @@ class Index extends Base
             $this->error('验证码不正确', 'index/Index/index');
         }*/
 
-		$user = new UserModel();
-		$res = $user->where('user_name', input('post.userName'))->where('deleted', 0)->find();
-		if (null === $res)
-		{
-			$this->error('账号或密码错误', 'index/Index/index');
-		}
+        $data = [
+        	'name' => input('post.userName'),
+        	'password' => input('post.userPassword'),
+        ];
+
+        $validate = new UserLogin();
+        if (!$validate->check($data))
+        {
+        	return $validate->getError();
+        }
+
+        $userLogic = new UserLogic();
+
+        if (!$userLogic->login($data))
+        {
+        	$this->error('账号或密码错误', 'Index/index');
+        }
+
+        $this->redirect('Main/main');
 		
-		if ($res['user_password'] === md5(input('post.userPassword')))
-		{
-			session('user_id', $res['id']);
-			EventManage::dealWithEvent('index/index/login');
-			$this->redirect('Main/main');
-		}
-		else
-		{
-			$this->error('账号或密码错误', 'Index/index');
-		}
+
+		// $user = new UserModel();
+		// $res = $user->where('user_name', input('post.userName'))->where('deleted', 0)->find();
+		// if (null === $res)
+		// {
+		// 	$this->error('账号或密码错误', 'index/Index/index');
+		// }
+		
+		// if ($res['user_password'] === md5(input('post.userPassword')))
+		// {
+			
+		// 	$this->redirect('Main/main');
+		// }
+		// else
+		// {
+		// 	$this->error('账号或密码错误', 'Index/index');
+		// }
 	}
 
 	public function loginOut()
