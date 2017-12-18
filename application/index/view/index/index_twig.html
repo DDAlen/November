@@ -1,16 +1,30 @@
+{layout name="layout" /}
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title>twig模板测试</title>
-</head>
-<body>
-{{ data }}
+	<link rel="stylesheet" href="/css/simple.css" />
+	<script type="text/javascript" src="/js/adminIndex.js"></script>
+
+<div style="float:right;">
+	<a href="{:url('index/Index/index')}">登录</a>
+	<a href="{:url('index/Index/register')}">注册</a>
+</div>
+<br />
+<div>
+	<form action= "{:url('index/Index/login')}" method="post">
+	账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：<input type="text" name="userName" value="">		
+	<br />
+	密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="password" name="userPassword" value="">	
+	<br />
+	验 证 码：<input type="test" name="validateCode" value="">		
+	<div>{:captcha_img()}</div>
+	<br />
+	<input id='login'  type="submit" value="登录" class="widthly" > <a href="{:url('/index/user/forgetPassword')}">忘记密码？修改</a>
+	</form>
+</div>
 
 <div>
+	{{ data['name'] }} <br />
+	{{ data['message'] }}
 	{% for i in range(0,3) %}
-		{{i}},	
+	<br />	{{i}}		
 	{% endfor %}	
 </div>
-</body>
-</html>

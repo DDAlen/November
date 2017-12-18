@@ -141,7 +141,7 @@ return [
   //   ],
     'template'               => [
         // 模板引擎类型 支持 php think 支持扩展
-        'type'         => 'Twig',
+        'type'         => 'Think',
         // 模板路径
         'view_path'    => '',
         // 模板后缀
@@ -154,6 +154,7 @@ return [
         // 标签库标签结束标记
         'taglib_end'   => '}',
     ],
+    
     'twig'               => [
          'type'         => '',
         // 模板路径

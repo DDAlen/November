@@ -210,4 +210,27 @@ class Controller
             return true;
         }
     }
+
+    public function twig($template, $vars=[], $httpCode=false)
+    {
+        //初始化
+        \Twig\Autoloader::register();
+        $request = Request::instance(); 
+        $template = empty($template) ? $request->action() : $template;
+        echo $template;
+        $path = $request->module() .'/view/'.$request->controller() . '/';
+        
+        $loader = new \Twig_Loader_Filesystem( ROOT_PATH.'/application/' . $path);
+        $twig = new \Twig_Environment($loader, array(
+            'cache' => RUNTIME_PATH.'/twig',
+            'debug' => config('app_debug')
+        ));
+        //函数扩展
+        $url_function = new \Twig_SimpleFunction('url', function($url = '', $vars = '', $suffix = true, $domain = false){
+            return url($url, $vars, $suffix, $domain);
+        });
+        $twig->addFunction($url_function);
+        //输出模板
+        return $twig->render($template.config('twig.view_suffix'), $vars);
+    }
 }

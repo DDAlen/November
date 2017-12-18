@@ -20,11 +20,8 @@ class Index extends Base
 
 	public function index()
 	{
-		return $this->twig('index', ['data' => '测试twig']);
-		//return twig('index_twig', null);	
-		 //session(null);
-		 //$this->render('index', ['data' => '测试twig']);
-		 //$view = new \think\view\driver\Twig();
+		session(null);
+		return $this->twig('', ['data' => ['name' => '紫霞', 'message' => '测试twigMessage']]);
 		 //return $this->fetch('index', ['data' => '测试twig']);
 	}
 	
@@ -63,30 +60,6 @@ class Index extends Base
 	public function register() 
 	{
 		return $this->fetch('register', ['question' => DB::name('question')->where('delete', 0)->select()]);	
-	}
-
-	public function twig($template, $vars=[], $httpCode=false)
-	{
-	    //定义模板目录//
-	    \Twig\Autoloader::register();
-	    
-	    $request = Request::instance(); 
-	    $path = $request->module() .'/view/'.$request->controller() . '/' . (empty($template) ?? $request->action());
-	    
-	    $loader = new \Twig_Loader_Filesystem( ROOT_PATH.'/application/' . $path);
-	    //$loader = new Twig_Loader_Filesystem( ROOT_PATH.'/application/index/view/index');
-	    //初始化
-	    $twig = new \Twig_Environment($loader, array(
-	        'cache' => RUNTIME_PATH.'/twig',
-	        'debug' => config('app_debug')
-	    ));
-	    //函数扩展
-	    $url_function = new \Twig_SimpleFunction('url', function($url = '', $vars = '', $suffix = true, $domain = false){
-	        return url($url, $vars, $suffix, $domain);
-	    });
-	    $twig->addFunction($url_function);
-	    //输出模板
-	    return $twig->render($template.config('twig.view_suffix'), $vars);
 	}
 
     public static function autoload($class)

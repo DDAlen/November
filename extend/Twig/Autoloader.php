@@ -47,7 +47,6 @@ class Autoloader
             return;
         };
         $file = dirname(__FILE__).'/../'.str_replace(array('_', "\0"), array('/', ''), $class).'.php';
-echo $file;echo '<br />';
         if (is_file($file)) {
             require $file;
         }
