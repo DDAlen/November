@@ -1,150 +1,213 @@
 <?php
+// +----------------------------------------------------------------------
+// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2015 http://thinkphp.cn All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: yunwuxin <448901948@qq.com>　
+// +----------------------------------------------------------------------
+
 namespace think\view\driver;
 
+use DirectoryIterator;
+use RuntimeException;
 use think\App;
-use think\exception\TemplateNotFoundException;
-use think\Log;
+use think\Config;
+use think\Loader;
 use think\Request;
-use think\Template;
-
-class Twig{
-
+use \Twig as Twigs;
+class Twig
+{
+    // 模板引擎参数
     protected $config = [
+        'view_base'         => '',
         // 模板起始路径
-        'view_path'   => '',
+        'view_path'         => '',
         // 模板文件后缀
-        'view_suffix' => 'html.wendortwig',
+        'view_suffix'       => '.html',
         // 模板文件名分隔符
-        'view_depr'   => DS,
-        //Whetaher to open the template chche,set to true eveyr time the default cache
-        'tpl_cache'   => true,
+        'view_depr'         => '/',
+        'cache_path'        => TEMP_PATH,
+        'strict_variables'  => true,
+        'auto_add_function' => false,
+        'functions'         => [],
+        'filters'           => [],
+        'globals'           => [],
+        'runtime'           => []
     ];
-     public function __construct($config = [])
+
+    public function __construct($config = [])
     {
-        $this->config = array_merge($this->config, $config);
+        $this->config($config);
+
+        if (!is_dir($this->config['cache_path'])) {
+            if (!mkdir($this->config['cache_path'], 0755, true)) {
+                throw new RuntimeException('Can not make the cache dir!');
+            }
+        }
+
         if (empty($this->config['view_path'])) {
             $this->config['view_path'] = App::$modulePath . 'view' . DS;
         }
-        $this->template = new Template($this->config);
     }
 
     /**
-     * 检测是否存在模板文件s
+     * 模板引擎配置项
      * @access public
-     * @param string $template 模板文件或者模板规则
-     * @return bool
+     * @param array|string $name
+     * @param mixed        $value
      */
-    public function exists($template)
+    public function config($name, $value = null)
     {
-        if ('' == pathinfo($template, PATHINFO_EXTENSION)) {
-            // 获取模板文件名
-            $template = $this->parseTemplate($template);
+        if (is_array($name)) {
+            $this->config = array_merge($this->config, $name);
+        } else {
+            $this->config[$name] = $value;
         }
-        return is_file($template);
     }
-    /**
-     * 渲染模板文件
-     * @access public
-     * @param string    $template 模板文件
-     * @param array     $data 模板变量
-     * @return void
-     */
-     public function fetch($template, $data = [])
+
+    protected function getTwigConfig()
     {
-        if ('' == pathinfo($template, PATHINFO_EXTENSION)) {
-            // 获取模板文件名
-            $template = $this->parseTemplate($template);
-        }
-        // 模板不存在 抛出异常
-        if (!is_file($template)) {
-            throw new TemplateNotFoundException('template not exists:' . $template, $template);
-        }
-        // 记录视图信息
-        App::$debug && Log::record('[ VIEW ] ' . $template . ' [ ' . var_export(array_keys($data), true) . ' ]', 'info');
-        extract($data, EXTR_OVERWRITE);
-        include $template;
+        return [
+            'debug'            => App::$debug,
+            'auto_reload'      => App::$debug,
+            'cache'            => $this->config['cache_path'],
+            'strict_variables' => $this->config['strict_variables']
+        ];
     }
-    /**
-     * 渲染模板内容
-     * @access public
-     * @param string    $template 模板内容
-     * @param array     $data 模板变量
-     * @param array     $config 模板参数
-     * @return void
-     */
+
+    protected function addFunctions(Twig_Environment $twig)
+    {
+        $twig->registerUndefinedFunctionCallback(function ($name) {
+            if (function_exists($name)) {
+                return new Twig_SimpleFunction($name, $name);
+            }
+
+            return false;
+        });
+    }
+
+    protected function getTwig(\Twig_LoaderInterface $loader)
+    {
+        $twig = new \Twig_Environment($loader, $this->getTwigConfig());
+
+        if ($this->config['auto_add_function']) {
+            $this->addFunctions($twig);
+        }
+
+        if (!empty($this->config['globals'])) {
+            foreach ($this->config['globals'] as $name => $global) {
+                $twig->addGlobal($name, $global);
+            }
+        }
+
+        if (!empty($this->config['functions'])) {
+            foreach ($this->config['functions'] as $name => $function) {
+                if (is_integer($name)) {
+                    $twig->addFunction(new Twig_SimpleFunction($function, $function));
+                } else {
+                    $twig->addFunction(new Twig_SimpleFunction($name, $function));
+                }
+            }
+        }
+
+        if (!empty($this->config['filters'])) {
+            foreach ($this->config['filters'] as $name => $filter) {
+                if (is_integer($name)) {
+                    $twig->addFilter(new Twig_SimpleFilter($filter, $filter));
+                } else {
+                    $twig->addFilter(new Twig_SimpleFilter($name, $filter));
+                }
+            }
+        }
+
+        if (!empty($this->config['runtime'])) {
+            $twig->addRuntimeLoader(new Twig_FactoryRuntimeLoader($this->config['runtime']));
+        }
+
+        $url_function = new \Twig_SimpleFunction('url', function($url = '', $vars = '', $suffix = true, $domain = false){
+            return url($url, $vars, $suffix, $domain);
+        });
+        $twig->addFunction($url_function);
+        
+
+        return $twig;
+    }
+
+    public function fetch($template, $data = [], $config = [])
+    {
+        if ($config) {
+            $this->config($config);
+        }
+        Twigs\Autoloader::register();
+        $loader = new \Twig_Loader_Filesystem($this->config['view_path']);
+
+        if (Config::get('app_multi_module')) {
+            $modules = $this->getModules();
+            foreach ($modules as $module) {
+                if ($this->config['view_base']) {
+                    $view_dir = $this->config['view_base'] . $module;
+                } else {
+                    $view_dir = APP_PATH . $module . DS . 'view';
+                }
+                if (is_dir($view_dir)) {
+                    $loader->addPath($view_dir, $module);
+                }
+            }
+        }
+
+        $twig = $this->getTwig($loader);
+
+        $template = $this->parseTemplate($template);
+
+        $twig->display($template, $data);
+    }
+
     public function display($template, $data = [], $config = [])
     {
-        $this->template->display($template, $data, $config);
+        if ($config) {
+            $this->config($config);
+        }
+        $key    = md5($template);
+        $loader = new Twig_Loader_Array([$key => $template]);
+
+        $twig = $this->getTwig($loader);
+
+        $twig->display($key, $data);
     }
 
-    /**
-     * 自动定位模板文件
-     * @access private
-     * @param string $template 模板文件规则
-     * @return string
-     */
     private function parseTemplate($template)
     {
-        // 获取视图根目录
-        if (strpos($template, '@')) {
-            // 跨模块调用
-            list($module, $template) = explode('@', $template);
-            $path                    = APP_PATH . $module . DS . 'view' . DS;
-        } else {
-            // 当前视图目录
-            $path = $this->config['view_path'];
-        }
-       
-    
-    $loader = new \Twig_Loader_Filesystem( ROOT_PATH.'views' );
-    //初始化
-    $twig = new \Twig_Environment($loader, array(
-        'cache' => RUNTIME_PATH.'/twig',
-        'debug' => config('app_debug')
-    ));
-    //函数扩展
-    $url_function = new Twig_SimpleFunction('url', function($url = '', $vars = '', $suffix = true, $domain = false){
-        return url($url, $vars, $suffix, $domain);
-    });
-    $twig->addFunction($url_function);
-    //输出模板
-    return $twig->render($template.config('twig.view_suffix'), $vars);
+        $request = Request::instance();
 
-        // 分析模板文件规则
-        $request    = Request::instance();
-        $controller = $request->controller();
+        $depr = $this->config['view_depr'];
+
+        $controller = Loader::parseName($request->controller());
+
         if ($controller && 0 !== strpos($template, '/')) {
-            $depr     = $this->config['view_depr'];
-            $template = str_replace(['/', ':'], $depr, $template);
             if ('' == $template) {
                 // 如果模板文件名为空 按照默认规则定位
                 $template = str_replace('.', DS, $controller) . $depr . $request->action();
-            } elseif (false === strpos($template, $depr)) {
+            } elseif (false === strpos($template, '/')) {
                 $template = str_replace('.', DS, $controller) . $depr . $template;
             }
         }
-        return $path . ltrim($template, '/') . '.' . ltrim($this->config['view_suffix'], '.');
+
+        return str_replace('/', $depr, $template) . $this->config['view_suffix'];
     }
 
-    public function __call($method, $params)
+    private function getModules()
     {
-        return call_user_func_array([$this->template, $method], $params);
+        $modules      = [];
+        $oDir         = new DirectoryIterator(APP_PATH);
+        $deny_modules = Config::get('deny_module_list');
+        foreach ($oDir as $file) {
+            if ($file->isDir() && !$file->isDot() && !in_array($file->getFilename(), $deny_modules)) {
+                $modules[] = $file->getFilename();
+            }
+        }
+        return $modules;
     }
-
-    public  function render($file,$array=array())
-     {
-       //$name= strtolower(get_class($this));
-       //$controller= substr($name,0,strpos($name,'controller'));
-       //$filename= _DIR_."/".$controller."/".$file;
-		$filename=dirname(__DIR__) . '/view/index/index_twg.html';
-        Twig_Autoloader::register();
-        $loader= new Twig_loader_Filesystem(VIEW_PATH);
-        $twig= new Twig_Environment($loader,array(
-                           'cache'=> ROOT_DIR.'/cache',
-                           'debug'=> DEBUG,
-                 ));
-        $template= $twig->loadTemplate($controller.’/’.$file.".php");
-        $template->display($array);
-     }
-
 }

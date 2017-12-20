@@ -3,7 +3,7 @@
 	<script type="text/javascript" src="/js/adminIndex.js"></script>
 
 <div style="float:right;">
-	<a href="{:url('index/Index/index')}">登录</a>
+	<a href="{{url('index/Index/index')}}">登录</a>
 	<a href="{:url('index/Index/register')}">注册</a>
 </div>
 <br />
@@ -22,7 +22,11 @@
 </div>
 
 <div>
+	
+</div>
+
+<div>
 	{% for i in range(0,3) %}
-		{{i}},		
+		{{i}}:{{loop.index}} ->
 	{% endfor %}	
 </div>

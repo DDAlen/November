@@ -141,11 +141,11 @@ return [
   //   ],
     'template'               => [
         // 模板引擎类型 支持 php think 支持扩展
-        'type'         => 'Think',
+        'type'         => 'Twig',
         // 模板路径
         'view_path'    => '',
         // 模板后缀
-        'view_suffix'  => 'html.wendortwig',
+        'view_suffix'  => '.html',
         'tpl_begin'    => '{',
         // 模板引擎普通标签结束标记
         'tpl_end'      => '}',
@@ -159,7 +159,7 @@ return [
          'type'         => '',
         // 模板路径
         // 模板后缀
-        'view_suffix'  => '_twig.html',
+        'view_suffix'  => '.html',
     ],
 
     // 视图输出字符串内容替换

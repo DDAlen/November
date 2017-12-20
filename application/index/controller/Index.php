@@ -25,8 +25,8 @@ class Index extends Controller
 			'register' => '/index/index/register',
 		];
 		$data = ['data' => ['name' => '是山东', 'message' => '撒旦说']];
-		return $this->twig('', $data);
-		 //return $this->fetch('index', ['data' => '测试twig']);
+		//return $this->twig('', $data);
+		return $this->fetch('index', ['data' => '测试twig']);
 	}
 	
 	public function login()
